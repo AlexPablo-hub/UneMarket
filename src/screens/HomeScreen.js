@@ -8,6 +8,7 @@ import ProductCard from '../components/ProductCard';
 import { useFocusEffect } from '@react-navigation/native';
 import { supabase } from '../services/supabase'
 import { Button } from 'react-native';
+
 const HomeScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -26,7 +27,8 @@ const HomeScreen = ({ navigation }) => {
       }
     }
     checkAuthOnMount()
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    (event, session) => {
       if (!session) {
         navigation.reset({
           index: 0,
@@ -35,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
       }
     })
     return () => {
-      authListener.unsubscribe()
+      subscription.unsubscribe()
     }
   }, [])
 
