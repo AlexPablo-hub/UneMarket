@@ -5,6 +5,8 @@ import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import AddProductScreen from '../screens/AddProductScreen';
+import UserProductsScreen from '../screens/UserProductsScreen';
+import EditProductScreen from '../screens/EditProductScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +48,16 @@ const AppNavigator = () => {
         name="AddProduct" 
         component={AddProductScreen} 
         options={{ title: 'Adicionar Produto' }} 
+      />
+      <Stack.Screen
+        name="UserProducts"
+        component={UserProductsScreen}
+        options={{ title: 'Meus Produtos' }}
+      />
+      <Stack.Screen
+        name="EditProduct"
+        component={EditProductScreen} // Reutilizando a tela de adicionar produto para edição
+        options={{ title: 'Editar Produto' }}
       />
     </Stack.Navigator>
   );

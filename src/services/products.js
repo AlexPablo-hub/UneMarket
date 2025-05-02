@@ -69,6 +69,34 @@ export const getProductById = async (id) => {
   }
 };
 
+export const getProductsByCurrentUser = async () => {
+  const user = await getCurrentUser();
+  if (!user) throw new Error('Usuário não autenticado.');
+
+  const { data, error } = await supabase
+    .from('products')
+    .select(`
+      *,
+      users:user_id (
+        name,
+        phone
+      )
+    `)
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  return data.map(product => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    description: product.description,
+    createdAt: product.created_at
+  }));
+};
+
+
 // Adicionar um novo produto
 export const saveProduct = async (productData) => {
   try {
