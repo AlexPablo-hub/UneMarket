@@ -8,9 +8,8 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <AppNavigator />
-        <StatusBar style="auto" />
-      </NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
     </PaperProvider>
   );
 }

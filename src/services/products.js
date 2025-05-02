@@ -24,6 +24,7 @@ export const getProducts = async () => {
       price: product.price,
       description: product.description,
       userId: product.user_id,
+      image: product.image,
       userPhone: product.users?.phone,
       sellerName: product.users?.name,
       createdAt: product.created_at
@@ -61,13 +62,43 @@ export const getProductById = async (id) => {
       userId: data.user_id,
       userPhone: data.users?.phone,
       sellerName: data.users?.name,
-      createdAt: data.created_at
+      createdAt: data.created_at,
+      image: data.image,
     };
   } catch (error) {
     console.error('Erro ao buscar produto por ID:', error);
     throw error;
   }
 };
+
+export const getProductsByCurrentUser = async () => {
+  const user = await getCurrentUser();
+  if (!user) throw new Error('Usuário não autenticado.');
+
+  const { data, error } = await supabase
+    .from('products')
+    .select(`
+      *,
+      users:user_id (
+        name,
+        phone
+      )
+    `)
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  return data.map(product => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    description: product.description,
+    createdAt: product.created_at,
+    image: product.image,
+  }));
+};
+
 
 // Adicionar um novo produto
 export const saveProduct = async (productData) => {
@@ -84,7 +115,8 @@ export const saveProduct = async (productData) => {
         name: productData.name,
         price: productData.price,
         description: productData.description,
-        user_id: user.id
+        user_id: user.id,
+        image: productData.image,
       })
       .select();
 
@@ -111,7 +143,8 @@ export const updateProduct = async (id, productData) => {
       .update({
         name: productData.name,
         price: productData.price,
-        description: productData.description
+        description: productData.description,
+        image: productData.image,
       })
       .eq('id', id)
       .select();
@@ -175,6 +208,7 @@ export const searchProducts = async (query) => {
       price: product.price,
       description: product.description,
       userId: product.user_id,
+      image: product.image,
       userPhone: product.users?.phone,
       sellerName: product.users?.name,
       createdAt: product.created_at

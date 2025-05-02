@@ -7,7 +7,7 @@ import { logoutUser } from '../services/auth';
 import ProductCard from '../components/ProductCard';
 import { useFocusEffect } from '@react-navigation/native';
 import { supabase } from '../services/supabase'
-
+import { Button } from 'react-native';
 const HomeScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -124,6 +124,11 @@ const HomeScreen = ({ navigation }) => {
           style={styles.searchbar}
         />
       </View>
+      <Button
+         title="Ver meus produtos"
+      onPress={() => navigation.navigate('UserProducts')}
+     />
+
       
       {loading && !refreshing ? (
         <View style={styles.loaderContainer}>
