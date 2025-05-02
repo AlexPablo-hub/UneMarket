@@ -87,6 +87,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Card style={styles.card}>
         <Card.Content>
+          <Card.Cover source={{ uri: product.image }} />
           <Title style={styles.title}>{product.name}</Title>
           <Text style={styles.price}>{formatPrice(product.price)}</Text>
           

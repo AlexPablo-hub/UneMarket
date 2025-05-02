@@ -7,6 +7,7 @@ const ProductCard = ({ product, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.cardContainer}>
       <Card style={styles.card}>
+        <Card.Cover source={{ uri: product.image }} />
         <Card.Content>
           <Title numberOfLines={1} style={styles.title}>{product.name}</Title>
           <Paragraph style={styles.price}>{formatPrice(product.price)}</Paragraph>

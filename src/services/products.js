@@ -24,6 +24,7 @@ export const getProducts = async () => {
       price: product.price,
       description: product.description,
       userId: product.user_id,
+      image: product.image,
       userPhone: product.users?.phone,
       sellerName: product.users?.name,
       createdAt: product.created_at
@@ -61,7 +62,8 @@ export const getProductById = async (id) => {
       userId: data.user_id,
       userPhone: data.users?.phone,
       sellerName: data.users?.name,
-      createdAt: data.created_at
+      createdAt: data.created_at,
+      image: data.image,
     };
   } catch (error) {
     console.error('Erro ao buscar produto por ID:', error);
@@ -92,7 +94,8 @@ export const getProductsByCurrentUser = async () => {
     name: product.name,
     price: product.price,
     description: product.description,
-    createdAt: product.created_at
+    createdAt: product.created_at,
+    image: product.image,
   }));
 };
 
@@ -112,7 +115,8 @@ export const saveProduct = async (productData) => {
         name: productData.name,
         price: productData.price,
         description: productData.description,
-        user_id: user.id
+        user_id: user.id,
+        image: productData.image,
       })
       .select();
 
@@ -139,7 +143,8 @@ export const updateProduct = async (id, productData) => {
       .update({
         name: productData.name,
         price: productData.price,
-        description: productData.description
+        description: productData.description,
+        image: productData.image,
       })
       .eq('id', id)
       .select();
@@ -203,6 +208,7 @@ export const searchProducts = async (query) => {
       price: product.price,
       description: product.description,
       userId: product.user_id,
+      image: product.image,
       userPhone: product.users?.phone,
       sellerName: product.users?.name,
       createdAt: product.created_at

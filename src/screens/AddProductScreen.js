@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { TextInput, Button, Text, Title } from 'react-native-paper';
 import { saveProduct } from '../services/products';
 import { validatePrice } from '../utils/validators';
+import * as ImagePicker from 'expo-image-picker';
 
 const AddProductScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -37,6 +38,28 @@ const AddProductScreen = ({ navigation }) => {
     }
   };
 
+  const [image, setImage] = useState(null);
+
+  const handlePickImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert('Permissão necessária', 'É necessário permitir o acesso à galeria para selecionar uma imagem.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   const handleAddProduct = async () => {
     if (!validate()) return;
     
@@ -45,7 +68,8 @@ const AddProductScreen = ({ navigation }) => {
       const productData = {
         name,
         price: parseFloat(price),
-        description
+        description,
+        image,
       };
       
       const result = await saveProduct(productData);
@@ -101,6 +125,15 @@ const AddProductScreen = ({ navigation }) => {
           error={!!errors.description}
         />
         {errors.description && <Text style={styles.errorText}>{errors.description}</Text>}
+
+        <Button 
+          mode="outlined" 
+          onPress={handlePickImage} 
+          style={styles.button}
+        >
+          Selecionar Imagem
+        </Button>
+        {image && <Text style={{ textAlign: 'center', marginVertical: 8 }}>Imagem selecionada</Text>}
         
         <Button 
           mode="contained" 

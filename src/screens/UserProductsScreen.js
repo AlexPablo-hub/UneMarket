@@ -3,6 +3,7 @@ import { View, FlatList, Text, StyleSheet, ActivityIndicator, Alert, TouchableOp
 import { useIsFocused } from '@react-navigation/native';
 import { getProductsByCurrentUser, deleteProduct } from '../services/products';
 import { useNavigation } from '@react-navigation/native';
+import { Card } from 'react-native-paper';
 
 const UserProductsScreen = () => {
   const [products, setProducts] = useState([]);
@@ -61,6 +62,7 @@ const UserProductsScreen = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.productCard}>
+              <Card.Cover source={{ uri: item.image }} />
               <Text style={styles.productName}>{item.name}</Text>
               <Text style={styles.productDesc}>{item.description}</Text>
               <Text style={styles.productPrice}>R$ {item.price}</Text>
