@@ -16,8 +16,7 @@ const AddProductScreen = ({ navigation }) => {
     const newErrors = {};
     
     if (!name) newErrors.name = 'Nome do produto é obrigatório';
-    if (!price) newErrors.price = 'Preço é obrigatório';
-    else if (!validatePrice(price)) newErrors.price = 'Preço deve ser maior que zero';
+    if (!price || price === 'R$ 0,00') newErrors.price = 'Preço é obrigatório';
     if (!description) newErrors.description = 'Descrição é obrigatória';
     
     setErrors(newErrors);
@@ -25,17 +24,12 @@ const AddProductScreen = ({ navigation }) => {
   };
 
   const handlePriceChange = (text) => {
-    // Permite apenas números e um ponto decimal
-    const formattedText = text.replace(/[^0-9.]/g, '');
-    
-    // Garante que há apenas um ponto decimal
-    const parts = formattedText.split('.');
-    if (parts.length > 2) {
-      const newText = parts[0] + '.' + parts.slice(1).join('');
-      setPrice(newText);
-    } else {
-      setPrice(formattedText);
-    }
+    const digits = text.replace(/\D/g, '');
+    const cents = parseInt(digits, 10) || 0;
+    const reais = (cents / 100).toFixed(2);
+    const [intPart, decPart] = reais.split('.');
+    const intWithThousand = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    setPrice(`R$ ${intWithThousand},${decPart}`);
   };
 
   const [image, setImage] = useState(null);
@@ -62,12 +56,18 @@ const AddProductScreen = ({ navigation }) => {
 
   const handleAddProduct = async () => {
     if (!validate()) return;
-    
     setLoading(true);
     try {
+      const numericPrice = parseFloat(
+        price
+          .replace(/[R$\s]/g, '')
+          .replace(/\./g, '')
+          .replace(',', '.')
+      );
+
       const productData = {
         name,
-        price: parseFloat(price),
+        price: numericPrice,
         description,
         image,
       };
@@ -104,7 +104,7 @@ const AddProductScreen = ({ navigation }) => {
         {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
         
         <TextInput
-          label="Preço (R$)"
+          label="Preço"
           value={price}
           onChangeText={handlePriceChange}
           style={styles.input}

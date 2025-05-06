@@ -37,7 +37,7 @@ const AppNavigator = () => {
       <Stack.Screen 
         name="Home" 
         component={HomeScreen} 
-        options={{ title: 'Marketplace' }} 
+        options={{ title: 'UneMarket' }} 
       />
       <Stack.Screen 
         name="ProductDetail" 
@@ -56,7 +56,7 @@ const AppNavigator = () => {
       />
       <Stack.Screen
         name="EditProduct"
-        component={EditProductScreen} // Reutilizando a tela de adicionar produto para edição
+        component={EditProductScreen}
         options={{ title: 'Editar Produto' }}
       />
     </Stack.Navigator>
