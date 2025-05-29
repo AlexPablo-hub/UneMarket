@@ -139,9 +139,9 @@ Escaneie o QR code com o app **Expo Go** (Android) ou a câmera (iOS).
 ---
 
 
-## 👨‍💻 Desenvolvedor
+## 👨‍💻 Desenvolvedores
 
-Este projeto foi desenvolvido por **Alex Pablo de Oliveira Moraes**, estudante de **Sistemas de Informação** na **UNEMAT**.
+Este projeto foi desenvolvido por [**Alex Pablo de Oliveira Moraes**](https://github.com/AlexPablo-hub) e [**Gabriel Guedes Rodrigues**](https://github.com/GabrielG5687), estudantes de **Sistemas de Informação** na **UNEMAT**.
 
 - 🔗 GitHub: [github.com/AlexPablo-hub](https://github.com/AlexPablo-hub)
 - 📧 Entre em contato se tiver dúvidas ou sugestões!
